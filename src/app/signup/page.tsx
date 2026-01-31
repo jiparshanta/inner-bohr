@@ -7,38 +7,51 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { registerUser } from "@/app/actions/auth"
 
 type FormData = {
   name: string
   email: string
+  phone: string
   password: string
   confirmPassword: string
+  termsAccepted: boolean
 }
 
 export default function SignupPage() {
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
-  } = useForm<FormData>()
+  } = useForm<FormData>({
+    defaultValues: {
+      termsAccepted: false,
+    },
+  })
 
   const password = watch("password")
+  const termsAccepted = watch("termsAccepted")
 
   const onSubmit = async (data: FormData) => {
     setIsLoading(true)
     setError(null)
+    setSuccess(null)
 
     const result = await registerUser({
       name: data.name,
       email: data.email,
       password: data.password,
+      phone: data.phone || undefined,
+      termsAccepted: data.termsAccepted,
     })
 
     if (result.error) {
@@ -47,7 +60,14 @@ export default function SignupPage() {
       return
     }
 
-    router.push("/login?registered=true")
+    // If there's a message, show it (email verification enabled)
+    // Otherwise redirect to login (email verification disabled)
+    if (result.message) {
+      setSuccess(result.message)
+      setIsLoading(false)
+    } else {
+      router.push("/login?registered=true")
+    }
   }
 
   return (
@@ -64,6 +84,11 @@ export default function SignupPage() {
             {error && (
               <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/20 rounded-md">
                 {error}
+              </div>
+            )}
+            {success && (
+              <div className="p-3 text-sm text-green-600 bg-green-50 dark:bg-green-900/20 rounded-md">
+                {success}
               </div>
             )}
             <div className="space-y-2">
@@ -102,11 +127,28 @@ export default function SignupPage() {
               )}
             </div>
             <div className="space-y-2">
+              <Label htmlFor="phone">Phone Number (Optional)</Label>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="9812345678"
+                {...register("phone", {
+                  pattern: {
+                    value: /^\d{10}$/,
+                    message: "Phone number must be exactly 10 digits",
+                  },
+                })}
+              />
+              {errors.phone && (
+                <p className="text-sm text-red-500">{errors.phone.message}</p>
+              )}
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="••••••••"
+                placeholder="********"
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
@@ -128,7 +170,7 @@ export default function SignupPage() {
               <Input
                 id="confirmPassword"
                 type="password"
-                placeholder="••••••••"
+                placeholder="********"
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
                   validate: (value) =>
@@ -139,9 +181,36 @@ export default function SignupPage() {
                 <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>
               )}
             </div>
+            <div className="flex items-start space-x-2">
+              <Checkbox
+                id="termsAccepted"
+                checked={termsAccepted}
+                onCheckedChange={(checked) => setValue("termsAccepted", checked === true)}
+              />
+              <div className="grid gap-1.5 leading-none">
+                <label
+                  htmlFor="termsAccepted"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                >
+                  I agree to the{" "}
+                  <Link href="/terms" className="text-primary hover:underline">
+                    Terms and Conditions
+                  </Link>
+                </label>
+                {errors.termsAccepted && (
+                  <p className="text-sm text-red-500">{errors.termsAccepted.message}</p>
+                )}
+              </div>
+              <input
+                type="hidden"
+                {...register("termsAccepted", {
+                  validate: (value) => value === true || "You must accept the terms and conditions",
+                })}
+              />
+            </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full" disabled={isLoading || !!success}>
               {isLoading ? "Creating account..." : "Create account"}
             </Button>
             <p className="text-sm text-center text-muted-foreground">

@@ -22,6 +22,7 @@ function LoginForm() {
   const [isLoading, setIsLoading] = useState(false)
 
   const registered = searchParams.get("registered")
+  const verified = searchParams.get("verified")
 
   const {
     register,
@@ -72,6 +73,11 @@ function LoginForm() {
           {registered && (
             <div className="p-3 text-sm text-green-600 bg-green-50 dark:bg-green-900/20 rounded-md">
               Account created successfully! Please sign in.
+            </div>
+          )}
+          {verified && (
+            <div className="p-3 text-sm text-green-600 bg-green-50 dark:bg-green-900/20 rounded-md">
+              Email verified successfully! You can now sign in.
             </div>
           )}
           {error && (
