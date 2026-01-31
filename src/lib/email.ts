@@ -1,7 +1,5 @@
 import { Resend } from "resend"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 const FROM_EMAIL = process.env.FROM_EMAIL || "noreply@resend.dev"
 const APP_NAME = "NepalCompanyReg"
 
@@ -10,6 +8,8 @@ export async function sendVerificationEmail(
   token: string,
   name?: string | null
 ) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
   const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
     : "http://localhost:3000"
