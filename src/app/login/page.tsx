@@ -40,8 +40,6 @@ function LoginForm() {
         redirect: false,
       })
 
-      console.log("[Login] signIn result:", result)
-
       if (result?.error) {
         setError("Invalid email or password")
         setIsLoading(false)
@@ -55,8 +53,7 @@ function LoginForm() {
         setError("Login failed. Please try again.")
         setIsLoading(false)
       }
-    } catch (err) {
-      console.error("[Login] Error:", err)
+    } catch {
       setError("An unexpected error occurred")
       setIsLoading(false)
     }
