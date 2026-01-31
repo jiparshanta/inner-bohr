@@ -33,20 +33,33 @@ function LoginForm() {
     setIsLoading(true)
     setError(null)
 
-    const result = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-    })
+    try {
+      const result = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      })
 
-    if (result?.error) {
-      setError("Invalid email or password")
+      console.log("[Login] signIn result:", result)
+
+      if (result?.error) {
+        setError("Invalid email or password")
+        setIsLoading(false)
+        return
+      }
+
+      if (result?.ok) {
+        router.push("/dashboard")
+        router.refresh()
+      } else {
+        setError("Login failed. Please try again.")
+        setIsLoading(false)
+      }
+    } catch (err) {
+      console.error("[Login] Error:", err)
+      setError("An unexpected error occurred")
       setIsLoading(false)
-      return
     }
-
-    router.push("/dashboard")
-    router.refresh()
   }
 
   return (
