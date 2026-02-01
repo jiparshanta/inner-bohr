@@ -48,8 +48,7 @@ function LoginForm() {
       }
 
       if (result?.ok) {
-        router.push("/dashboard")
-        router.refresh()
+        window.location.href = "/dashboard"
       } else {
         setError("Login failed. Please try again.")
         setIsLoading(false)
