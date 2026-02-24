@@ -18,6 +18,10 @@ const config = {
             },
         },
         extend: {
+            fontFamily: {
+                sans: ["var(--font-plus-jakarta-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+                heading: ["var(--font-sora)", "ui-sans-serif", "system-ui", "sans-serif"],
+            },
             colors: {
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
@@ -52,11 +56,25 @@ const config = {
                     DEFAULT: "hsl(var(--card))",
                     foreground: "hsl(var(--card-foreground))",
                 },
+                brand: {
+                    blue: "#2D9CDB",
+                    "blue-dark": "#1A6FA3",
+                    "blue-light": "#E8F5FD",
+                    green: "#34D399",
+                    "green-dark": "#059669",
+                    "green-light": "#ECFDF5",
+                    crimson: "#DC143C",
+                    "crimson-light": "#FFF0F3",
+                },
             },
             borderRadius: {
                 lg: "var(--radius)",
-                md: "calc(var(--radius) - 2px)",
-                sm: "calc(var(--radius) - 4px)",
+                md: "calc(var(--radius) - 4px)",
+                sm: "calc(var(--radius) - 8px)",
+            },
+            boxShadow: {
+                primary: "0 4px 16px rgba(45, 156, 219, 0.35)",
+                "primary-lg": "0 6px 20px rgba(45, 156, 219, 0.45)",
             },
             keyframes: {
                 "accordion-down": {

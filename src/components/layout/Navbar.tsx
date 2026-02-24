@@ -23,12 +23,13 @@ export function Navbar() {
     ]
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className="sticky top-0 z-50 w-full border-b border-border bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
             <div className="container flex h-14 max-w-screen-2xl items-center justify-between px-4 md:px-8">
                 <div className="flex items-center">
                     <Link href="/" className="mr-6 flex items-center space-x-2">
-                        <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                            NepalCompanyReg
+                        <span className="font-heading text-xl font-bold">
+                            <span className="text-primary">Ez</span>
+                            <span className="text-foreground">Darta</span>
                         </span>
                     </Link>
                     <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
@@ -36,7 +37,7 @@ export function Navbar() {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className="transition-colors hover:text-foreground/80 text-foreground/60"
+                                className="transition-colors hover:text-primary text-muted-foreground"
                             >
                                 {link.label}
                             </Link>
@@ -50,17 +51,17 @@ export function Navbar() {
                         ) : session?.user ? (
                             <div className="flex items-center space-x-3">
                                 <div className="flex items-center space-x-2 text-sm">
-                                    <User className="h-4 w-4" />
+                                    <User className="h-4 w-4 text-muted-foreground" />
                                     <span className="font-medium">{session.user.name || session.user.email}</span>
                                     {isAdmin && (
-                                        <span className="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full">
+                                        <span className="text-xs bg-brand-crimson-light text-brand-crimson px-1.5 py-0.5 rounded-full">
                                             Admin
                                         </span>
                                     )}
                                 </div>
                                 {isAdmin && (
                                     <Link href="/admin">
-                                        <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700">
+                                        <Button variant="ghost" size="sm" className="text-brand-crimson hover:text-[#DC143C]">
                                             <Shield className="h-4 w-4 mr-1" />
                                             Admin
                                         </Button>
@@ -73,7 +74,7 @@ export function Navbar() {
                                     variant="ghost"
                                     size="sm"
                                     onClick={handleSignOut}
-                                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                                    className="text-brand-crimson hover:text-[#DC143C] hover:bg-brand-crimson-light"
                                 >
                                     <LogOut className="h-4 w-4 mr-1" />
                                     Logout
@@ -104,35 +105,35 @@ export function Navbar() {
 
             {/* Mobile Menu */}
             {mobileMenuOpen && (
-                <div className="md:hidden border-t border-border/40 bg-background">
+                <div className="md:hidden border-t border-border bg-white">
                     <nav className="flex flex-col px-4 py-4 space-y-3">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className="text-sm font-medium transition-colors hover:text-foreground/80 text-foreground/60 py-2"
+                                className="text-sm font-medium transition-colors hover:text-primary text-muted-foreground py-2"
                                 onClick={() => setMobileMenuOpen(false)}
                             >
                                 {link.label}
                             </Link>
                         ))}
-                        <div className="border-t border-border/40 pt-4 mt-2">
+                        <div className="border-t border-border pt-4 mt-2">
                             {isLoading ? (
                                 <div className="h-9 w-full animate-pulse bg-muted rounded-md" />
                             ) : session?.user ? (
                                 <div className="flex flex-col space-y-3">
                                     <div className="flex items-center space-x-2 text-sm py-2">
-                                        <User className="h-4 w-4" />
+                                        <User className="h-4 w-4 text-muted-foreground" />
                                         <span className="font-medium">{session.user.name || session.user.email}</span>
                                         {isAdmin && (
-                                            <span className="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full">
+                                            <span className="text-xs bg-brand-crimson-light text-brand-crimson px-1.5 py-0.5 rounded-full">
                                                 Admin
                                             </span>
                                         )}
                                     </div>
                                     {isAdmin && (
                                         <Link href="/admin" onClick={() => setMobileMenuOpen(false)}>
-                                            <Button variant="ghost" size="sm" className="w-full justify-start text-red-600 hover:text-red-700">
+                                            <Button variant="ghost" size="sm" className="w-full justify-start text-brand-crimson hover:text-[#DC143C]">
                                                 <Shield className="h-4 w-4 mr-2" />
                                                 Admin Panel
                                             </Button>
@@ -150,7 +151,7 @@ export function Navbar() {
                                             handleSignOut()
                                             setMobileMenuOpen(false)
                                         }}
-                                        className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                                        className="w-full justify-start text-brand-crimson hover:text-[#DC143C] hover:bg-brand-crimson-light"
                                     >
                                         <LogOut className="h-4 w-4 mr-2" />
                                         Logout

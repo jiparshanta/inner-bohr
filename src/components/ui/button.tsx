@@ -5,11 +5,12 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
     {
         variants: {
             variant: {
-                default: "bg-primary text-primary-foreground hover:bg-primary/90",
+                default:
+                    "bg-gradient-to-r from-[#2D9CDB] to-[#1A6FA3] text-white shadow-[0_4px_16px_rgba(45,156,219,0.35)] hover:shadow-[0_6px_20px_rgba(45,156,219,0.45)] hover:opacity-90",
                 destructive:
                     "bg-destructive text-destructive-foreground hover:bg-destructive/90",
                 outline:
@@ -41,11 +42,6 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({ className, variant, size, asChild = false, ...props }, ref) => {
-        // If asChild is true, we need to install @radix-ui/react-slot.
-        // Since I haven't installed it yet, I will default to just `button` if asChild is false, 
-        // but the code here assumes it might be used. 
-        // For now I'll just use `button` and ignore Slot if not installed, or install it. 
-        // Standard shadcn uses Slot. I should install @radix-ui/react-slot.
         const Comp = asChild ? Slot : "button"
         return (
             <Comp

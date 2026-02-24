@@ -7,34 +7,38 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative px-6 py-24 md:py-32 lg:px-8 bg-gradient-to-b from-blue-50 to-white dark:from-sky-950 dark:to-background">
+      <section className="relative px-6 py-24 md:py-32 lg:px-8 bg-gradient-to-b from-[#E8F5FD] to-white">
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-6xl mb-6">
-            Register Your Company in <span className="text-blue-600">Nepal</span> Online
+            Register Smart.{" "}
+            <span className="text-primary">Start Fast.</span>
           </h1>
-          <p className="mt-6 text-lg leading-8 text-muted-foreground mb-8">
+          <p className="mt-4 text-lg leading-8 text-muted-foreground mb-2 font-medium">
+            Nepal को Business Registration, सजिलो बनाउँदै
+          </p>
+          <p className="mt-2 text-base leading-7 text-muted-foreground mb-8">
             The fastest, easiest way to register your Pvt. Ltd. company.
             We handle the OCR paperwork, document drafting, and filing so you can focus on business.
           </p>
-          <div className="flex items-center justify-center gap-x-6">
+          <div className="flex items-center justify-center gap-x-4 flex-wrap gap-y-3">
             <Link href="/register">
-              <Button size="lg" className="text-lg px-8 py-6 shadow-lg shadow-blue-500/20">
+              <Button size="lg" className="text-base px-8 py-6">
                 Start Registration
               </Button>
             </Link>
             <Link href="/how-it-works">
-              <Button variant="outline" size="lg" className="text-lg px-8 py-6">
-                Learn more <span aria-hidden="true">→</span>
+              <Button variant="outline" size="lg" className="text-base px-8 py-6 border-primary text-primary hover:bg-[#E8F5FD]">
+                Learn more <span aria-hidden="true" className="ml-1">→</span>
               </Button>
             </Link>
           </div>
-          <div className="mt-10 flex items-center justify-center gap-x-8 text-sm text-muted-foreground">
+          <div className="mt-10 flex items-center justify-center gap-x-8 text-sm text-muted-foreground flex-wrap gap-y-3">
             <div className="flex items-center gap-x-2">
-              <CheckCircle2 className="h-5 w-5 text-green-500" />
+              <CheckCircle2 className="h-5 w-5 text-brand-green" />
               <span>100% Online Process</span>
             </div>
             <div className="flex items-center gap-x-2">
-              <CheckCircle2 className="h-5 w-5 text-green-500" />
+              <CheckCircle2 className="h-5 w-5 text-brand-green" />
               <span>Expert OCR Assistance</span>
             </div>
           </div>
@@ -42,22 +46,22 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 sm:py-32 bg-slate-50 dark:bg-slate-900/20">
+      <section className="py-24 sm:py-32 bg-[#F8FAFC]">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
-            <h2 className="text-base font-semibold leading-7 text-blue-600">Everything you need</h2>
+            <h2 className="text-base font-semibold leading-7 text-primary">Everything you need</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               We simplify the bureaucracy
             </p>
             <p className="mt-6 text-lg leading-8 text-muted-foreground">
-              Don't get lost in paperwork. Our platform guides you through every step required by the Office of Company Registrar.
+              Don&apos;t get lost in paperwork. Our platform guides you through every step required by the Office of Company Registrar.
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-            <div className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-              <Card>
+            <div className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-8 lg:max-w-none lg:grid-cols-3">
+              <Card className="shadow-sm hover:shadow-md transition-shadow">
                 <CardHeader>
-                  <FileText className="h-10 w-10 text-blue-600 mb-2" />
+                  <FileText className="h-10 w-10 text-primary mb-2" />
                   <CardTitle>Auto-Generated Documents</CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -66,20 +70,20 @@ export default function Home() {
                   </CardDescription>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="shadow-sm hover:shadow-md transition-shadow">
                 <CardHeader>
-                  <Globe className="h-10 w-10 text-blue-600 mb-2" />
+                  <Globe className="h-10 w-10 text-primary mb-2" />
                   <CardTitle>Remote Filing</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription>
-                    Submit your details from anywhere. upload your citizenship, and we handle the physical submission and verification at OCR.
+                    Submit your details from anywhere, upload your citizenship, and we handle the physical submission and verification at OCR.
                   </CardDescription>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="shadow-sm hover:shadow-md transition-shadow">
                 <CardHeader>
-                  <ShieldCheck className="h-10 w-10 text-blue-600 mb-2" />
+                  <ShieldCheck className="h-10 w-10 text-primary mb-2" />
                   <CardTitle>Legal Compliance</CardTitle>
                 </CardHeader>
                 <CardContent>

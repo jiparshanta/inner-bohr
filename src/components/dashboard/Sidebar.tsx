@@ -23,18 +23,27 @@ export function Sidebar() {
     }
 
     return (
-        <div className="pb-12 min-h-screen border-r bg-slate-50/40 dark:bg-slate-900/40 w-64 hidden md:block">
+        <div className="pb-12 min-h-screen border-r bg-white w-64 hidden md:block">
             <div className="space-y-4 py-4">
                 <div className="px-3 py-2">
-                    <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+                    <div className="px-4 mb-4">
+                        <span className="font-heading text-lg font-bold">
+                            <span className="text-primary">Ez</span>
+                            <span className="text-foreground">Darta</span>
+                        </span>
+                    </div>
+                    <h2 className="mb-2 px-4 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
                         Dashboard
                     </h2>
                     <div className="space-y-1">
                         {links.map((link) => (
                             <Link key={link.href} href={link.href}>
                                 <Button
-                                    variant={pathname === link.href ? "secondary" : "ghost"}
-                                    className="w-full justify-start"
+                                    variant="ghost"
+                                    className={cn(
+                                        "w-full justify-start text-muted-foreground hover:text-primary hover:bg-[#E8F5FD]",
+                                        pathname === link.href && "bg-[#E8F5FD] text-primary font-medium"
+                                    )}
                                 >
                                     <link.icon className="mr-2 h-4 w-4" />
                                     {link.name}
@@ -43,14 +52,14 @@ export function Sidebar() {
                         ))}
                     </div>
                 </div>
-                <div className="px-3 py-2">
-                    <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+                <div className="px-3 py-2 border-t border-border">
+                    <h2 className="mb-2 px-4 text-xs font-semibold tracking-wider text-muted-foreground uppercase mt-2">
                         Account
                     </h2>
                     <div className="space-y-1">
                         <Button
                             variant="ghost"
-                            className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-50"
+                            className="w-full justify-start text-[#DC143C] hover:text-[#DC143C] hover:bg-[#FFF0F3]"
                             onClick={handleLogout}
                         >
                             <LogOut className="mr-2 h-4 w-4" />

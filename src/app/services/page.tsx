@@ -109,7 +109,7 @@ export default function ServicesPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative px-6 py-16 md:py-24 lg:px-8 bg-gradient-to-b from-blue-50 to-white dark:from-sky-950 dark:to-background">
+      <section className="relative px-6 py-16 md:py-24 lg:px-8 bg-gradient-to-b from-[#E8F5FD] to-white">
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl mb-6">
             Our Services
@@ -126,9 +126,9 @@ export default function ServicesPage() {
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service) => (
-              <Card key={service.title} className="flex flex-col h-full hover:shadow-lg transition-shadow">
+              <Card key={service.title} className="flex flex-col h-full hover:shadow-lg transition-shadow shadow-sm">
                 <CardHeader>
-                  <service.icon className="h-10 w-10 text-blue-600 mb-3" />
+                  <service.icon className="h-10 w-10 text-primary mb-3" />
                   <CardTitle className="text-xl">{service.title}</CardTitle>
                   <CardDescription className="text-base">
                     {service.description}
@@ -138,7 +138,7 @@ export default function ServicesPage() {
                   <ul className="space-y-2">
                     {service.features.map((feature) => (
                       <li key={feature} className="flex items-center text-sm text-muted-foreground">
-                        <ShieldCheck className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                        <ShieldCheck className="h-4 w-4 text-[#34D399] mr-2 flex-shrink-0" />
                         {feature}
                       </li>
                     ))}
@@ -151,7 +151,7 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 px-6 lg:px-8 bg-slate-50 dark:bg-slate-900/20">
+      <section className="py-16 md:py-24 px-6 lg:px-8 bg-[#F8FAFC]">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl mb-4">
             Ready to get started?
@@ -167,7 +167,7 @@ export default function ServicesPage() {
               </Button>
             </Link>
             <Link href="/pricing">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto border-primary text-primary hover:bg-[#E8F5FD]">
                 View Pricing
               </Button>
             </Link>

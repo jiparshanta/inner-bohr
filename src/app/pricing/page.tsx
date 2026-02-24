@@ -75,7 +75,7 @@ export default function PricingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative px-6 py-16 md:py-24 lg:px-8 bg-gradient-to-b from-blue-50 to-white dark:from-sky-950 dark:to-background">
+      <section className="relative px-6 py-16 md:py-24 lg:px-8 bg-gradient-to-b from-[#E8F5FD] to-white">
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl mb-6">
             Simple, Transparent Pricing
@@ -93,13 +93,13 @@ export default function PricingPage() {
             {pricingPlans.map((plan) => (
               <Card
                 key={plan.name}
-                className={`flex flex-col h-full relative ${
-                  plan.popular ? "border-blue-600 border-2 shadow-lg" : ""
+                className={`flex flex-col h-full relative shadow-sm ${
+                  plan.popular ? "border-primary border-2 shadow-primary" : ""
                 }`}
               >
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    <span className="bg-gradient-to-r from-[#2D9CDB] to-[#1A6FA3] text-white text-xs font-semibold px-3 py-1 rounded-full">
                       Most Popular
                     </span>
                   </div>
@@ -117,7 +117,7 @@ export default function PricingPage() {
                   <ul className="space-y-3 text-left">
                     {plan.features.map((feature) => (
                       <li key={feature} className="flex items-start text-sm">
-                        <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
+                        <CheckCircle2 className="h-5 w-5 text-[#34D399] mr-2 flex-shrink-0" />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -149,7 +149,7 @@ export default function PricingPage() {
       </section>
 
       {/* Add-on Services */}
-      <section className="py-16 md:py-24 px-6 lg:px-8 bg-slate-50 dark:bg-slate-900/20">
+      <section className="py-16 md:py-24 px-6 lg:px-8 bg-[#F8FAFC]">
         <div className="mx-auto max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl mb-4">
@@ -159,16 +159,16 @@ export default function PricingPage() {
               Enhance your registration with additional services as needed.
             </p>
           </div>
-          <Card>
+          <Card className="shadow-sm">
             <CardContent className="p-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {addOnServices.map((service) => (
                   <div
                     key={service.name}
-                    className="flex items-center justify-between p-4 rounded-lg bg-background border"
+                    className="flex items-center justify-between p-4 rounded-xl bg-white border border-border"
                   >
                     <span className="font-medium">{service.name}</span>
-                    <span className="text-blue-600 font-semibold">NPR {service.price}</span>
+                    <span className="text-primary font-semibold">NPR {service.price}</span>
                   </div>
                 ))}
               </div>
@@ -193,7 +193,7 @@ export default function PricingPage() {
               </Button>
             </Link>
             <Link href="/about">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto border-primary text-primary hover:bg-[#E8F5FD]">
                 Contact Us
               </Button>
             </Link>

@@ -60,8 +60,14 @@ function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md shadow-lg">
       <CardHeader className="space-y-1">
+        <div className="flex justify-center mb-2">
+          <span className="font-heading text-2xl font-bold">
+            <span className="text-primary">Ez</span>
+            <span className="text-foreground">Darta</span>
+          </span>
+        </div>
         <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
         <CardDescription className="text-center">
           Enter your credentials to access your account
@@ -70,17 +76,17 @@ function LoginForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent className="space-y-4">
           {registered && (
-            <div className="p-3 text-sm text-green-600 bg-green-50 dark:bg-green-900/20 rounded-md">
+            <div className="p-3 text-sm text-[#059669] bg-[#ECFDF5] rounded-lg">
               Account created successfully! Please sign in.
             </div>
           )}
           {verified && (
-            <div className="p-3 text-sm text-green-600 bg-green-50 dark:bg-green-900/20 rounded-md">
+            <div className="p-3 text-sm text-[#059669] bg-[#ECFDF5] rounded-lg">
               Email verified successfully! You can now sign in.
             </div>
           )}
           {error && (
-            <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/20 rounded-md">
+            <div className="p-3 text-sm text-[#DC143C] bg-[#FFF0F3] rounded-lg">
               {error}
             </div>
           )}
@@ -99,7 +105,7 @@ function LoginForm() {
               })}
             />
             {errors.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
+              <p className="text-sm text-[#DC143C]">{errors.email.message}</p>
             )}
           </div>
           <div className="space-y-2">
@@ -113,7 +119,7 @@ function LoginForm() {
               })}
             />
             {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
+              <p className="text-sm text-[#DC143C]">{errors.password.message}</p>
             )}
           </div>
         </CardContent>
@@ -123,7 +129,7 @@ function LoginForm() {
           </Button>
           <p className="text-sm text-center text-muted-foreground">
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="text-primary hover:underline">
+            <Link href="/signup" className="text-primary hover:underline font-medium">
               Sign up
             </Link>
           </p>
@@ -135,9 +141,9 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#E8F5FD] to-[#F8FAFC] px-4">
       <Suspense fallback={
-        <Card className="w-full max-w-md">
+        <Card className="w-full max-w-md shadow-lg">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
             <CardDescription className="text-center">Loading...</CardDescription>

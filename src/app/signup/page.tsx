@@ -60,8 +60,6 @@ export default function SignupPage() {
       return
     }
 
-    // If there's a message, show it (email verification enabled)
-    // Otherwise redirect to login (email verification disabled)
     if (result.message) {
       setSuccess(result.message)
       setIsLoading(false)
@@ -71,9 +69,15 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 px-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#E8F5FD] to-[#F8FAFC] px-4 py-8">
+      <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1">
+          <div className="flex justify-center mb-2">
+            <span className="font-heading text-2xl font-bold">
+              <span className="text-primary">Ez</span>
+              <span className="text-foreground">Darta</span>
+            </span>
+          </div>
           <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
           <CardDescription className="text-center">
             Enter your details to get started
@@ -82,12 +86,12 @@ export default function SignupPage() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
             {error && (
-              <div className="p-3 text-sm text-red-500 bg-red-50 dark:bg-red-900/20 rounded-md">
+              <div className="p-3 text-sm text-[#DC143C] bg-[#FFF0F3] rounded-lg">
                 {error}
               </div>
             )}
             {success && (
-              <div className="p-3 text-sm text-green-600 bg-green-50 dark:bg-green-900/20 rounded-md">
+              <div className="p-3 text-sm text-[#059669] bg-[#ECFDF5] rounded-lg">
                 {success}
               </div>
             )}
@@ -105,7 +109,7 @@ export default function SignupPage() {
                 })}
               />
               {errors.name && (
-                <p className="text-sm text-red-500">{errors.name.message}</p>
+                <p className="text-sm text-[#DC143C]">{errors.name.message}</p>
               )}
             </div>
             <div className="space-y-2">
@@ -123,7 +127,7 @@ export default function SignupPage() {
                 })}
               />
               {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
+                <p className="text-sm text-[#DC143C]">{errors.email.message}</p>
               )}
             </div>
             <div className="space-y-2">
@@ -140,7 +144,7 @@ export default function SignupPage() {
                 })}
               />
               {errors.phone && (
-                <p className="text-sm text-red-500">{errors.phone.message}</p>
+                <p className="text-sm text-[#DC143C]">{errors.phone.message}</p>
               )}
             </div>
             <div className="space-y-2">
@@ -148,7 +152,7 @@ export default function SignupPage() {
               <Input
                 id="password"
                 type="password"
-                placeholder="********"
+                placeholder="••••••••"
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
@@ -162,7 +166,7 @@ export default function SignupPage() {
                 })}
               />
               {errors.password && (
-                <p className="text-sm text-red-500">{errors.password.message}</p>
+                <p className="text-sm text-[#DC143C]">{errors.password.message}</p>
               )}
             </div>
             <div className="space-y-2">
@@ -170,7 +174,7 @@ export default function SignupPage() {
               <Input
                 id="confirmPassword"
                 type="password"
-                placeholder="********"
+                placeholder="••••••••"
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
                   validate: (value) =>
@@ -178,7 +182,7 @@ export default function SignupPage() {
                 })}
               />
               {errors.confirmPassword && (
-                <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>
+                <p className="text-sm text-[#DC143C]">{errors.confirmPassword.message}</p>
               )}
             </div>
             <div className="flex items-start space-x-2">
@@ -198,7 +202,7 @@ export default function SignupPage() {
                   </Link>
                 </label>
                 {errors.termsAccepted && (
-                  <p className="text-sm text-red-500">{errors.termsAccepted.message}</p>
+                  <p className="text-sm text-[#DC143C]">{errors.termsAccepted.message}</p>
                 )}
               </div>
               <input
@@ -215,7 +219,7 @@ export default function SignupPage() {
             </Button>
             <p className="text-sm text-center text-muted-foreground">
               Already have an account?{" "}
-              <Link href="/login" className="text-primary hover:underline">
+              <Link href="/login" className="text-primary hover:underline font-medium">
                 Sign in
               </Link>
             </p>

@@ -8,19 +8,19 @@ import { Plus, Building2, Clock, CheckCircle, CreditCard, ArrowRight } from "luc
 const statusConfig = {
   pending: {
     label: "Pending",
-    className: "bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-300",
+    className: "bg-[#E8F5FD] text-[#1A6FA3] border-[#2D9CDB]/30",
   },
   under_review: {
     label: "Under Review",
-    className: "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300",
+    className: "bg-[#E8F5FD] text-[#1A6FA3] border-[#2D9CDB]/50",
   },
   approved: {
     label: "Approved",
-    className: "bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-300",
+    className: "bg-[#ECFDF5] text-[#059669] border-[#34D399]/30",
   },
   rejected: {
     label: "Rejected",
-    className: "bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-300",
+    className: "bg-[#FFF0F3] text-[#DC143C] border-[#DC143C]/30",
   },
 }
 
@@ -31,7 +31,7 @@ export default async function DashboardPage() {
   if (result.error) {
     return (
       <div className="flex items-center justify-center h-64">
-        <p className="text-red-500">{result.error}</p>
+        <p className="text-[#DC143C]">{result.error}</p>
       </div>
     )
   }
@@ -56,40 +56,40 @@ export default async function DashboardPage() {
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Applications</CardTitle>
-            <Building2 className="h-4 w-4 text-muted-foreground" />
+            <Building2 className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats?.total || 0}</div>
             <p className="text-xs text-muted-foreground">Companies registered</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending Review</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <Clock className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats?.pending || 0}</div>
             <p className="text-xs text-muted-foreground">Awaiting approval</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Approved</CardTitle>
-            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+            <CheckCircle className="h-4 w-4 text-[#34D399]" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats?.approved || 0}</div>
             <p className="text-xs text-muted-foreground">Successfully registered</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Payments</CardTitle>
-            <CreditCard className="h-4 w-4 text-muted-foreground" />
+            <CreditCard className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">NPR {(stats?.totalPayments || 0).toLocaleString()}</div>
@@ -99,7 +99,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Recent Applications */}
-      <Card>
+      <Card className="shadow-sm">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle>Recent Applications</CardTitle>
@@ -107,7 +107,7 @@ export default async function DashboardPage() {
           </div>
           {recentCompanies && recentCompanies.length > 0 && (
             <Link href="/dashboard/companies">
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="text-primary hover:text-[#1A6FA3] hover:bg-[#E8F5FD]">
                 View All
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -146,7 +146,7 @@ export default async function DashboardPage() {
                 return (
                   <div
                     key={company.id}
-                    className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 p-4 rounded-lg border items-center"
+                    className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 p-4 rounded-xl border border-border items-center hover:bg-[#F8FAFC] transition-colors"
                   >
                     <div>
                       <p className="font-medium">{company.name}</p>
@@ -170,7 +170,7 @@ export default async function DashboardPage() {
                     </div>
                     <div>
                       <Link href={`/dashboard/companies/${company.id}`}>
-                        <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                        <Button variant="ghost" size="sm" className="text-primary hover:text-[#1A6FA3] hover:bg-[#E8F5FD]">
                           View Details
                         </Button>
                       </Link>
@@ -185,7 +185,7 @@ export default async function DashboardPage() {
 
       {/* Quick Actions */}
       <div className="grid gap-4 md:grid-cols-3">
-        <Card className="hover:shadow-md transition-shadow">
+        <Card className="hover:shadow-md transition-shadow shadow-sm">
           <CardHeader>
             <CardTitle className="text-lg">Register New Company</CardTitle>
             <CardDescription>Start a new company registration application</CardDescription>
@@ -200,14 +200,14 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow">
+        <Card className="hover:shadow-md transition-shadow shadow-sm">
           <CardHeader>
             <CardTitle className="text-lg">View Companies</CardTitle>
             <CardDescription>Manage your registered companies</CardDescription>
           </CardHeader>
           <CardContent>
             <Link href="/dashboard/companies">
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full border-primary text-primary hover:bg-[#E8F5FD]">
                 <Building2 className="mr-2 h-4 w-4" />
                 My Companies
               </Button>
@@ -215,14 +215,14 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow">
+        <Card className="hover:shadow-md transition-shadow shadow-sm">
           <CardHeader>
             <CardTitle className="text-lg">Payment History</CardTitle>
             <CardDescription>View all your transactions</CardDescription>
           </CardHeader>
           <CardContent>
             <Link href="/dashboard/payments">
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full border-primary text-primary hover:bg-[#E8F5FD]">
                 <CreditCard className="mr-2 h-4 w-4" />
                 View Payments
               </Button>

@@ -41,8 +41,12 @@ export function AdminSidebar() {
     <>
       <div className="px-3 py-2">
         <div className="flex items-center gap-2 px-4 mb-6">
-          <Shield className="h-6 w-6 text-red-400" />
-          <h2 className="text-lg font-bold">Admin Panel</h2>
+          <Shield className="h-5 w-5 text-[#DC143C]" />
+          <span className="font-heading text-lg font-bold">
+            <span className="text-[#2D9CDB]">Ez</span>
+            <span className="text-white">Darta</span>
+          </span>
+          <span className="text-xs text-gray-400 ml-1">Admin</span>
         </div>
         <div className="space-y-1">
           {links.map((link) => (
@@ -50,8 +54,8 @@ export function AdminSidebar() {
               <Button
                 variant="ghost"
                 className={cn(
-                  "w-full justify-start text-slate-300 hover:text-white hover:bg-slate-800",
-                  pathname === link.href && "bg-slate-800 text-white"
+                  "w-full justify-start text-gray-400 hover:text-white hover:bg-[#1A6FA3]/20",
+                  pathname === link.href && "bg-[#2D9CDB]/20 text-[#2D9CDB] font-medium"
                 )}
               >
                 <link.icon className="mr-2 h-4 w-4" />
@@ -61,12 +65,12 @@ export function AdminSidebar() {
           ))}
         </div>
       </div>
-      <div className="px-3 py-2 border-t border-slate-700 pt-4">
+      <div className="px-3 py-2 border-t border-white/10 pt-4">
         <div className="space-y-1">
           <Link href="/dashboard" onClick={onLinkClick}>
             <Button
               variant="ghost"
-              className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-800"
+              className="w-full justify-start text-gray-400 hover:text-white hover:bg-white/10"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to App
@@ -74,7 +78,7 @@ export function AdminSidebar() {
           </Link>
           <Button
             variant="ghost"
-            className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-red-900/20"
+            className="w-full justify-start text-[#DC143C] hover:text-[#DC143C] hover:bg-[#DC143C]/10"
             onClick={() => {
               onLinkClick?.()
               handleLogout()
@@ -91,15 +95,18 @@ export function AdminSidebar() {
   return (
     <>
       {/* Mobile Header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-slate-900 text-white border-b border-slate-700 px-4 py-3 flex items-center justify-between">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#0F172A] text-white border-b border-white/10 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Shield className="h-5 w-5 text-red-400" />
-          <span className="font-bold">Admin Panel</span>
+          <Shield className="h-5 w-5 text-[#DC143C]" />
+          <span className="font-heading font-bold">
+            <span className="text-[#2D9CDB]">Ez</span>
+            <span className="text-white">Darta</span>
+          </span>
         </div>
         <Button
           variant="ghost"
           size="icon"
-          className="text-white hover:bg-slate-800"
+          className="text-white hover:bg-white/10"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -117,7 +124,7 @@ export function AdminSidebar() {
       {/* Mobile Sidebar */}
       <div
         className={cn(
-          "md:hidden fixed top-14 left-0 bottom-0 z-50 w-64 bg-slate-900 text-white transform transition-transform duration-200 ease-in-out overflow-y-auto",
+          "md:hidden fixed top-14 left-0 bottom-0 z-50 w-64 bg-[#0F172A] text-white transform transition-transform duration-200 ease-in-out overflow-y-auto",
           mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -127,7 +134,7 @@ export function AdminSidebar() {
       </div>
 
       {/* Desktop Sidebar */}
-      <div className="pb-12 min-h-screen border-r bg-slate-900 text-white w-64 hidden md:block">
+      <div className="pb-12 min-h-screen border-r bg-[#0F172A] text-white w-64 hidden md:block">
         <div className="space-y-4 py-4">
           <SidebarContent />
         </div>
