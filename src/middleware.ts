@@ -13,9 +13,34 @@ export default auth((req) => {
   const isOnAuthPage = pathname.startsWith("/login") ||
                        pathname.startsWith("/signup")
 
-  // Secret admin entry point — sets a permanent cookie and redirects to /admin
+  // Secret admin entry point — redirect to /admin with token in query
   if (isOnSecretAdmin && pathname === `/manage/${ADMIN_SECRET_KEY}`) {
-    const response = NextResponse.redirect(new URL("/admin", req.nextUrl))
+    return NextResponse.redirect(new URL(`/admin?token=${ADMIN_SECRET_KEY}`, req.nextUrl))
+  }
+
+  // Any other /manage/ path — go home
+  if (isOnSecretAdmin) {
+    return NextResponse.redirect(new URL("/", req.nextUrl))
+  }
+
+  // Admin route protection
+  if (isOnAdmin) {
+    const cookie = req.cookies.get(ADMIN_COOKIE)
+    const token = req.nextUrl.searchParams.get("token")
+
+    // Valid access: cookie or correct token in URL
+    const hasAccess = cookie?.value === ADMIN_SECRET_KEY || token === ADMIN_SECRET_KEY
+
+    if (!hasAccess) {
+      return NextResponse.redirect(new URL("/", req.nextUrl))
+    }
+
+    if (!isLoggedIn) {
+      return NextResponse.redirect(new URL("/login", req.nextUrl))
+    }
+
+    // Set/refresh the cookie so internal navigation works
+    const response = NextResponse.next()
     response.cookies.set(ADMIN_COOKIE, ADMIN_SECRET_KEY, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -24,23 +49,6 @@ export default auth((req) => {
       path: "/",
     })
     return response
-  }
-
-  // Any other /manage/ path — not found
-  if (isOnSecretAdmin) {
-    return NextResponse.redirect(new URL("/", req.nextUrl))
-  }
-
-  // Block /admin unless they have the access cookie
-  if (isOnAdmin) {
-    const cookie = req.cookies.get(ADMIN_COOKIE)
-    if (cookie?.value !== ADMIN_SECRET_KEY) {
-      return NextResponse.redirect(new URL("/", req.nextUrl))
-    }
-    if (!isLoggedIn) {
-      return NextResponse.redirect(new URL("/login", req.nextUrl))
-    }
-    return NextResponse.next()
   }
 
   // Protect dashboard routes
