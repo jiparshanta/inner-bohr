@@ -283,6 +283,19 @@ export async function updatePaymentStatus(
   return { success: true }
 }
 
+// Public: check maintenance mode (no auth required)
+export async function getMaintenanceMode() {
+  try {
+    const settings = await prisma.siteSettings.findUnique({
+      where: { id: "default" },
+      select: { maintenanceMode: true },
+    })
+    return { maintenanceMode: settings?.maintenanceMode ?? false }
+  } catch {
+    return { maintenanceMode: false }
+  }
+}
+
 // Site Settings
 export async function getSiteSettings() {
   const adminCheck = await checkAdmin()

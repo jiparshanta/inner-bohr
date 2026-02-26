@@ -3,6 +3,7 @@ import { Sora, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { MaintenanceGate } from "@/components/layout/MaintenanceGate";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import { cn } from "@/lib/utils";
 
@@ -32,9 +33,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(sora.variable, plusJakartaSans.variable, "min-h-screen bg-background font-sans antialiased flex flex-col")}>
         <SessionProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <MaintenanceGate>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </MaintenanceGate>
         </SessionProvider>
       </body>
     </html>
