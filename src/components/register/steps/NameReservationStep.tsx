@@ -151,6 +151,8 @@ export function NameReservationStep({ onNext, defaultValues }: NameReservationSt
                                     <SelectContent>
                                         <SelectItem value="private-limited">Private Limited (Pvt. Ltd.)</SelectItem>
                                         <SelectItem value="public-limited">Public Limited</SelectItem>
+                                        <SelectItem value="sole-proprietorship">Sole Proprietorship (Ekal Swamitwa)</SelectItem>
+                                        <SelectItem value="partnership">Partnership (Sajhedari Firma)</SelectItem>
                                         <SelectItem value="non-profit">Non-Profit (Munaafa Bitaran Nagarne)</SelectItem>
                                     </SelectContent>
                                 </Select>

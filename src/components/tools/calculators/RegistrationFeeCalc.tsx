@@ -67,6 +67,8 @@ export function RegistrationFeeCalc() {
               <SelectContent>
                 <SelectItem value="private">Private Limited</SelectItem>
                 <SelectItem value="public">Public Limited</SelectItem>
+                <SelectItem value="sole-proprietorship">Sole Proprietorship</SelectItem>
+                <SelectItem value="partnership">Partnership</SelectItem>
               </SelectContent>
             </Select>
           </div>
