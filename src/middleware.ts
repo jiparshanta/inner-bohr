@@ -2,32 +2,33 @@ import { auth } from "@/lib/auth"
 import { NextResponse } from "next/server"
 
 const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY || "ezdarta-manage-2024"
-const ADMIN_COOKIE_NAME = "admin-access-token"
+const ADMIN_COOKIE = "ezdarta-admin-access"
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth
-  const isOnDashboard = req.nextUrl.pathname.startsWith("/dashboard")
-  const isOnAdmin = req.nextUrl.pathname.startsWith("/admin")
-  const isOnAuthPage = req.nextUrl.pathname.startsWith("/login") ||
-                       req.nextUrl.pathname.startsWith("/signup")
+  const pathname = req.nextUrl.pathname
+  const isOnDashboard = pathname.startsWith("/dashboard")
+  const isOnAdmin = pathname.startsWith("/admin")
+  const isOnAuthPage = pathname.startsWith("/login") ||
+                       pathname.startsWith("/signup")
 
-  // Handle secret admin access link: /admin-access/<SECRET_KEY>
-  if (req.nextUrl.pathname === `/admin-access/${ADMIN_SECRET_KEY}`) {
+  // Secret admin entry point — sets a permanent cookie and redirects to /admin
+  if (pathname === `/manage-${ADMIN_SECRET_KEY}`) {
     const response = NextResponse.redirect(new URL("/admin", req.nextUrl))
-    response.cookies.set(ADMIN_COOKIE_NAME, ADMIN_SECRET_KEY, {
+    response.cookies.set(ADMIN_COOKIE, ADMIN_SECRET_KEY, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 24 * 365, // 1 year
       path: "/",
     })
     return response
   }
 
-  // Block direct access to /admin without the access cookie
+  // Block /admin unless they have the access cookie
   if (isOnAdmin) {
-    const accessCookie = req.cookies.get(ADMIN_COOKIE_NAME)
-    if (accessCookie?.value !== ADMIN_SECRET_KEY) {
+    const cookie = req.cookies.get(ADMIN_COOKIE)
+    if (cookie?.value !== ADMIN_SECRET_KEY) {
       return NextResponse.rewrite(new URL("/_not-found", req.nextUrl), { status: 404 })
     }
     if (!isLoggedIn) {
@@ -50,5 +51,5 @@ export default auth((req) => {
 })
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/admin-access/:path*", "/login", "/signup"],
+  matcher: ["/dashboard/:path*", "/admin/:path*", "/manage-:path*", "/login", "/signup"],
 }
