@@ -9,11 +9,12 @@ export default auth((req) => {
   const pathname = req.nextUrl.pathname
   const isOnDashboard = pathname.startsWith("/dashboard")
   const isOnAdmin = pathname.startsWith("/admin")
+  const isOnSecretAdmin = pathname.startsWith("/manage/")
   const isOnAuthPage = pathname.startsWith("/login") ||
                        pathname.startsWith("/signup")
 
   // Secret admin entry point — sets a permanent cookie and redirects to /admin
-  if (pathname === `/manage/${ADMIN_SECRET_KEY}`) {
+  if (isOnSecretAdmin && pathname === `/manage/${ADMIN_SECRET_KEY}`) {
     const response = NextResponse.redirect(new URL("/admin", req.nextUrl))
     response.cookies.set(ADMIN_COOKIE, ADMIN_SECRET_KEY, {
       httpOnly: true,
@@ -25,11 +26,16 @@ export default auth((req) => {
     return response
   }
 
+  // Any other /manage/ path — not found
+  if (isOnSecretAdmin) {
+    return NextResponse.redirect(new URL("/", req.nextUrl))
+  }
+
   // Block /admin unless they have the access cookie
   if (isOnAdmin) {
     const cookie = req.cookies.get(ADMIN_COOKIE)
     if (cookie?.value !== ADMIN_SECRET_KEY) {
-      return NextResponse.rewrite(new URL("/_not-found", req.nextUrl), { status: 404 })
+      return NextResponse.redirect(new URL("/", req.nextUrl))
     }
     if (!isLoggedIn) {
       return NextResponse.redirect(new URL("/login", req.nextUrl))
@@ -51,5 +57,5 @@ export default auth((req) => {
 })
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/manage/:path*", "/login", "/signup"],
+  matcher: ["/dashboard/:path*", "/admin", "/admin/:path*", "/manage/:path*", "/login", "/signup"],
 }
