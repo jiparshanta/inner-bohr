@@ -13,7 +13,7 @@ export default auth((req) => {
                        pathname.startsWith("/signup")
 
   // Secret admin entry point — sets a permanent cookie and redirects to /admin
-  if (pathname === `/manage-${ADMIN_SECRET_KEY}`) {
+  if (pathname === `/manage/${ADMIN_SECRET_KEY}`) {
     const response = NextResponse.redirect(new URL("/admin", req.nextUrl))
     response.cookies.set(ADMIN_COOKIE, ADMIN_SECRET_KEY, {
       httpOnly: true,
@@ -51,5 +51,5 @@ export default auth((req) => {
 })
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/manage-:path*", "/login", "/signup"],
+  matcher: ["/dashboard/:path*", "/admin/:path*", "/manage/:path*", "/login", "/signup"],
 }
