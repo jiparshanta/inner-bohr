@@ -1,37 +1,12 @@
-import { getCompanyById, deleteCompany } from "@/app/actions/companies"
+import { getCompanyById } from "@/app/actions/companies"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { notFound, redirect } from "next/navigation"
-import { ArrowLeft, Clock, CheckCircle, XCircle, AlertCircle, Trash2 } from "lucide-react"
+import { notFound } from "next/navigation"
+import { ArrowLeft, CheckCircle } from "lucide-react"
 import { DeleteCompanyButton } from "./DeleteCompanyButton"
-
-const statusConfig = {
-  pending: {
-    label: "Pending Review",
-    icon: Clock,
-    className: "bg-yellow-50 text-yellow-700 border-yellow-200",
-    description: "Your application is waiting to be reviewed by our team.",
-  },
-  under_review: {
-    label: "Under Review",
-    icon: AlertCircle,
-    className: "bg-blue-50 text-blue-700 border-blue-200",
-    description: "Our team is currently reviewing your application.",
-  },
-  approved: {
-    label: "Approved",
-    icon: CheckCircle,
-    className: "bg-green-50 text-green-700 border-green-200",
-    description: "Your company has been successfully registered.",
-  },
-  rejected: {
-    label: "Rejected",
-    icon: XCircle,
-    className: "bg-red-50 text-red-700 border-red-200",
-    description: "Unfortunately, your application was rejected.",
-  },
-}
+import { ProgressTracker } from "@/components/dashboard/ProgressTracker"
+import { ActivityFeed } from "@/components/dashboard/ActivityFeed"
 
 const companyTypes: Record<string, string> = {
   pvt_ltd: "Private Limited Company",
@@ -53,8 +28,6 @@ export default async function CompanyDetailsPage({
   }
 
   const company = result.company
-  const status = statusConfig[company.status as keyof typeof statusConfig] || statusConfig.pending
-  const StatusIcon = status.icon
   const selectedServices = company.selectedServices ? JSON.parse(company.selectedServices) : []
 
   return (
@@ -76,21 +49,14 @@ export default async function CompanyDetailsPage({
         )}
       </div>
 
-      {/* Status Card */}
-      <Card className={status.className}>
-        <CardContent className="flex items-center gap-4 py-4">
-          <StatusIcon className="h-8 w-8" />
-          <div>
-            <h3 className="font-semibold text-lg">{status.label}</h3>
-            <p className="text-sm opacity-90">{status.description}</p>
-            {company.status === "rejected" && company.rejectionReason && (
-              <p className="text-sm mt-2">
-                <strong>Reason:</strong> {company.rejectionReason}
-              </p>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+      {/* Progress Tracker */}
+      <ProgressTracker
+        status={company.status}
+        registrationNumber={company.registrationNumber}
+        panNumber={company.panNumber}
+        submittedAt={company.submittedAt}
+        rejectionReason={company.rejectionReason}
+      />
 
       <div className="grid gap-6 md:grid-cols-2">
         {/* Company Information */}
@@ -137,7 +103,7 @@ export default async function CompanyDetailsPage({
         <Card>
           <CardHeader>
             <CardTitle>Registered Address</CardTitle>
-            <CardDescription>Company's official address</CardDescription>
+            <CardDescription>Company&apos;s official address</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {company.address ? (
@@ -191,66 +157,8 @@ export default async function CompanyDetailsPage({
           </Card>
         )}
 
-        {/* Timeline */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Timeline</CardTitle>
-            <CardDescription>Application progress</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="h-2 w-2 rounded-full bg-green-500" />
-                <div>
-                  <p className="font-medium">Application Submitted</p>
-                  <p className="text-sm text-muted-foreground">
-                    {new Date(company.submittedAt).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
-                </div>
-              </div>
-              {company.approvedAt && (
-                <div className="flex items-center gap-3">
-                  <div className="h-2 w-2 rounded-full bg-green-500" />
-                  <div>
-                    <p className="font-medium">Application Approved</p>
-                    <p className="text-sm text-muted-foreground">
-                      {new Date(company.approvedAt).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
-                  </div>
-                </div>
-              )}
-              {company.rejectedAt && (
-                <div className="flex items-center gap-3">
-                  <div className="h-2 w-2 rounded-full bg-red-500" />
-                  <div>
-                    <p className="font-medium">Application Rejected</p>
-                    <p className="text-sm text-muted-foreground">
-                      {new Date(company.rejectedAt).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Activity Feed */}
+        <ActivityFeed companyId={company.id} fallbackSubmittedAt={company.submittedAt} />
 
         {/* Payments */}
         {company.payments && company.payments.length > 0 && (

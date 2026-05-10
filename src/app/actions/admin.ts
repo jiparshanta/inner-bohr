@@ -213,6 +213,12 @@ export async function updateCompanyStatus(
   const adminCheck = await checkAdmin()
   if (!adminCheck.isAdmin) return adminCheck
 
+  const existing = await prisma.company.findUnique({
+    where: { id: companyId },
+    select: { status: true, registrationNumber: true, panNumber: true, name: true },
+  })
+  if (!existing) return { error: "Company not found" }
+
   const updateData: Record<string, unknown> = { status }
 
   if (status === "approved") {
@@ -227,12 +233,68 @@ export async function updateCompanyStatus(
     if (data?.rejectionReason) updateData.rejectionReason = data.rejectionReason
   }
 
-  await prisma.company.update({
-    where: { id: companyId },
-    data: updateData,
-  })
+  const statusLabels: Record<string, string> = {
+    pending: "Pending Review",
+    under_review: "Under Review",
+    approved: "Approved",
+    rejected: "Rejected",
+  }
+
+  const activities: Array<{
+    companyId: string
+    type: string
+    title: string
+    message: string | null
+    actorRole: string
+    metadata: string | null
+  }> = []
+
+  if (existing.status !== status) {
+    activities.push({
+      companyId,
+      type: "status_change",
+      title: `Application moved to ${statusLabels[status]}`,
+      message:
+        status === "rejected" && data?.rejectionReason
+          ? data.rejectionReason
+          : null,
+      actorRole: "admin",
+      metadata: JSON.stringify({ from: existing.status, to: status }),
+    })
+  }
+
+  const newRegNo = data?.registrationNumber
+  if (newRegNo && newRegNo !== existing.registrationNumber) {
+    activities.push({
+      companyId,
+      type: "registration_filed",
+      title: "OCR registration filed",
+      message: `Registration number ${newRegNo} has been issued for ${existing.name}.`,
+      actorRole: "admin",
+      metadata: JSON.stringify({ registrationNumber: newRegNo }),
+    })
+  }
+
+  const newPan = data?.panNumber
+  if (newPan && newPan !== existing.panNumber) {
+    activities.push({
+      companyId,
+      type: "pan_issued",
+      title: "PAN issued",
+      message: `Tax ID (PAN) ${newPan} has been registered.`,
+      actorRole: "admin",
+      metadata: JSON.stringify({ panNumber: newPan }),
+    })
+  }
+
+  await prisma.$transaction([
+    prisma.company.update({ where: { id: companyId }, data: updateData }),
+    ...activities.map((a) => prisma.companyActivity.create({ data: a })),
+  ])
 
   revalidatePath("/admin/companies")
+  revalidatePath("/dashboard")
+  revalidatePath(`/dashboard/companies/${companyId}`)
   return { success: true }
 }
 

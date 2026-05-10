@@ -4,25 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Plus, Building2, Clock, CheckCircle, CreditCard, ArrowRight } from "lucide-react"
-
-const statusConfig = {
-  pending: {
-    label: "Pending",
-    className: "bg-[#E8F5FD] text-[#1A6FA3] border-[#2D9CDB]/30",
-  },
-  under_review: {
-    label: "Under Review",
-    className: "bg-[#E8F5FD] text-[#1A6FA3] border-[#2D9CDB]/50",
-  },
-  approved: {
-    label: "Approved",
-    className: "bg-[#ECFDF5] text-[#059669] border-[#34D399]/30",
-  },
-  rejected: {
-    label: "Rejected",
-    className: "bg-[#FFF0F3] text-[#DC143C] border-[#DC143C]/30",
-  },
-}
+import { getStatusVisual } from "@/lib/status"
+import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist"
+import { UpsellCards } from "@/components/dashboard/UpsellCards"
 
 export default async function DashboardPage() {
   const session = await auth()
@@ -53,6 +37,9 @@ export default async function DashboardPage() {
           </Button>
         </Link>
       </div>
+
+      {/* Onboarding Checklist (only renders for new users) */}
+      <OnboardingChecklist />
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -141,7 +128,7 @@ export default async function DashboardPage() {
 
               {/* Table Rows */}
               {recentCompanies.map((company) => {
-                const status = statusConfig[company.status as keyof typeof statusConfig] || statusConfig.pending
+                const status = getStatusVisual(company.status)
 
                 return (
                   <div
@@ -156,7 +143,7 @@ export default async function DashboardPage() {
                     </div>
                     <div>
                       <span
-                        className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${status.className}`}
+                        className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${status.badgeClass}`}
                       >
                         {status.label}
                       </span>
@@ -230,6 +217,9 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Add-on services upsell */}
+      <UpsellCards />
     </div>
   )
 }

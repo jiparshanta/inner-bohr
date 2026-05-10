@@ -72,6 +72,14 @@ export async function createCompany(data: {
       businessObjectives: data.businessObjectives,
       selectedServices: data.selectedServices ? JSON.stringify(data.selectedServices) : null,
       status: "pending",
+      activities: {
+        create: {
+          type: "submitted",
+          title: "Application submitted",
+          message: `Your registration for ${data.name} has been received and is queued for review.`,
+          actorRole: "user",
+        },
+      },
     },
   })
 
